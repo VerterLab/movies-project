@@ -13,7 +13,7 @@ export class Main extends Component {
 
   componentDidMount() {
     this.setState();
-    fetch(`http://www.omdbapi.com/?apikey=${API_KEY}&s=matrix`)
+    fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=matrix`)
       .then((response) => response.json())
       .then((data) => this.setState({ movies: data.Search, loading: false }));
   }
@@ -21,7 +21,7 @@ export class Main extends Component {
   searching = (strMovie, typeMovie) => {
     this.setState({ loading: true });
     fetch(
-      `http://www.omdbapi.com/?apikey=${API_KEY}&s=${strMovie}&type=${typeMovie}`,
+      `https://www.omdbapi.com/?apikey=${API_KEY}&s=${strMovie}&type=${typeMovie}`,
     )
       .then((response) => response.json())
       .then((data) => this.setState({ movies: data.Search, loading: false }));
