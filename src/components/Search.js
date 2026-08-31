@@ -1,100 +1,78 @@
-import { Component } from "react";
+import { useState } from "react";
 
-class Search extends Component {
-  state = {
-    search: "",
-    typeMovie: "",
-  };
+function Search(props) {
+  const { searching } = props;
+  const [search, setSearch] = useState("");
+  const [typeMovie, setTypeMovie] = useState("");
 
-  handleKey = (e) => {
+  const handleKey = (e) => {
     if (e.key === "Enter") {
-      this.props.searching(this.state.search, this.state.typeMovie);
+      searching(search, typeMovie);
     }
   };
 
-  //   componentDidUpdate() {
-  //     console.log(this.state.search, "--");
-  //   }
-  render() {
-    return (
-      <div className="row">
-        <div className="input-field ">
-          <input
-            className="validate"
-            placeholder="search"
-            type="search"
-            value={this.state.search}
-            onChange={(e) => this.setState({ search: e.target.value })}
-            onKeyDown={this.handleKey}
-          />
-          <button
-            className="btn search-btn"
-            onClick={() =>
-              this.props.searching(this.state.search, this.state.typeMovie)
-            }
-          >
-            Search
-          </button>
-          <div className="radioSearch">
-            <p>
-              <label>
-                <input
-                  className="with-gap"
-                  name="group1"
-                  type="radio"
-                  data-type=""
-                  onChange={(e) =>
-                    this.setState({ typeMovie: e.target.dataset.type })
-                  }
-                  checked={this.state.typeMovie === ""}
-                />
-                <span>All </span>
-              </label>
-            </p>
-            <p>
-              <label>
-                <input
-                  className="with-gap"
-                  name="group1"
-                  type="radio"
-                  data-type="movie"
-                  onChange={(e) =>
-                    this.setState({ typeMovie: e.target.dataset.type })
-                  }
-                  checked={this.state.typeMovie === "movie"}
-                />
-                <span>Movie</span>
-              </label>
-            </p>
-            <p>
-              <label>
-                <input
-                  className="with-gap"
-                  name="group1"
-                  type="radio"
-                  data-type="series"
-                  onChange={(e) =>
-                    this.setState({ typeMovie: e.target.dataset.type })
-                  }
-                  checked={this.state.typeMovie === "series"}
-                />
-                <span>Series</span>
-              </label>
-            </p>
-            {/* <input
-              type="radio"
-              id="all"
-              name="typeMovie"
-              value={this.state.typeMovie}
-              checked
-              onChange={(e) => this.setState({ typeMovie: e.target.value })}
-            />
-            <label for="all">All</label> */}
-          </div>
+  return (
+    <div className="row">
+      <div className="input-field ">
+        <input
+          id="search"
+          className="validate"
+          placeholder="search"
+          type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={handleKey}
+        />
+        <button
+          className="btn search-btn"
+          onClick={() => searching(search, typeMovie)}
+        >
+          Search
+        </button>
+        <div className="radioSearch">
+          <p>
+            <label>
+              <input
+                className="with-gap"
+                name="group1"
+                type="radio"
+                data-type=""
+                onChange={(e) => setTypeMovie(e.target.dataset.type)}
+                checked={typeMovie === ""}
+              />
+              <span>All </span>
+            </label>
+          </p>
+          <p>
+            <label>
+              <input
+                className="with-gap"
+                name="group1"
+                type="radio"
+                data-type="movie"
+                onChange={(e) => setTypeMovie(e.target.dataset.type)}
+                checked={typeMovie === "movie"}
+              />
+              <span>Movie</span>
+            </label>
+          </p>
+          <p>
+            <label>
+              <input
+                className="with-gap"
+                name="group1"
+                type="radio"
+                data-type="series"
+                onChange={(e) => setTypeMovie(e.target.dataset.type)}
+                checked={typeMovie === "series"}
+              />
+              <span>Series</span>
+            </label>
+          </p>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export { Search };

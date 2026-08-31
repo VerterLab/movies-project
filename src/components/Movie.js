@@ -13,7 +13,7 @@ function Movie(props) {
           <img
             className="activator"
             src=""
-            onerror="this.src=''"
+            onerror={(this.src = "")}
             alt=""
             title="No pictur"
           />

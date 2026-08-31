@@ -1,40 +1,37 @@
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import { Movies } from "../components/Movies";
 import { Preload } from "../components/Preload";
 import { Search } from "../components/Search";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-export class Main extends Component {
-  state = {
-    movies: [],
-    loading: true,
-  };
-
-  componentDidMount() {
-    this.setState();
-    fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=matrix`)
-      .then((response) => response.json())
-      .then((data) => this.setState({ movies: data.Search, loading: false }));
-  }
-
-  searching = (strMovie, typeMovie) => {
-    this.setState({ loading: true });
+function Main() {
+  const [movies, setMovies] = useState();
+  const [loading, setLoading] = useState(false);
+  const searching = (strMovie, typeMovie) => {
+    setLoading(true);
     fetch(
       `https://www.omdbapi.com/?apikey=${API_KEY}&s=${strMovie}&type=${typeMovie}`,
     )
       .then((response) => response.json())
-      .then((data) => this.setState({ movies: data.Search, loading: false }));
+      .then((data) => setMovies(data.Search));
   };
-
-  render() {
-    const { movies, loading } = this.state;
-
-    return (
-      <main className="container content">
-        <Search searching={this.searching} />
-        {loading ? <Preload /> : <Movies movies={movies} searching />}
-      </main>
-    );
-  }
+  useEffect(() => {
+    fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=matrix`)
+      .then((response) => response.json())
+      .then((data) => setMovies(data.Search));
+    setLoading(true);
+  }, []);
+  return (
+    <main className="container content">
+      <Search searching={searching} />
+      {!loading ? (
+        <Preload />
+      ) : (
+        <Movies movies={movies} searching={searching} />
+      )}
+    </main>
+  );
 }
+
+export { Main };
